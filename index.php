@@ -142,6 +142,12 @@
         .played {
             background-color: black;
         }
+
+        .turn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+        }
     </style>
 </head>
 
@@ -155,6 +161,7 @@
         </div>
     </div>
     <h1>Isola</h1>
+    <p class="turn">Pion 1</p>
     <div class="plateau">
         <div class="row">
             <div class="col"></div>
@@ -266,6 +273,9 @@
                 pion2_position = { y: 0, x: 3 };
             }
 
+            document.querySelector(".pion1").style.boxShadow = (turn == "pion1") ? "3px 3px 5px 6px #fff" : "";
+            document.querySelector(".pion2").style.boxShadow = (turn == "pion2") ? "3px 3px 5px 6px #fff" : "";
+
 
             if (game_over) {
                 localStorage.clear();
@@ -350,7 +360,7 @@
                                     let row = document.querySelectorAll(".row")[row_index];
                                     let element = row.querySelectorAll(".col")[index_col_targeted];
                                     // console.log(is_mooving_good, element);
-                                    if (!element.classList.contains("played")) {
+                                    if (!element.classList.contains("played") && (""+x+y) != (""+index_col_targeted+row_index)) {
                                         let current_coin = document.querySelector("#col-cont-pion1");
                                         // console.log(current_coin);
                                         // element.appendChild(current_coin);
@@ -360,8 +370,8 @@
                                         // color the current square
                                         // update coords var and localstorage
                                         // update turn var and localstorage
-                                        let coordsAroundX = [(x - 1), x, (x + 1)];
-                                        let coordsAroundY = [(y - 1), y, (y + 1)];
+                                        let coordsAroundX = [(index_col_targeted - 1), index_col_targeted, (index_col_targeted + 1)];
+                                        let coordsAroundY = [(row_index - 1), row_index, (row_index + 1)];
                                         console.log(coordsAroundX, coordsAroundY);
                                         let flagtOver = true;
                                         for (let indexX = 0; indexX < coordsAroundX.length; indexX++) {
@@ -369,7 +379,7 @@
                                             for (let indexY = 0; indexY < coordsAroundY.length; indexY++) {
                                                 const elementY = coordsAroundY[indexY];
                                                 console.log("xy :  ", ("" + elementX + elementY));
-                                                if (("" + x + y) != ("" + elementX + elementY)) {
+                                                if ((""+elementX+elementY) != (""+index_col_targeted+row_index)) {
                                                     let rowTargeted = undefined;
                                                     let elementTargeted = undefined;
                                                     if (document.querySelectorAll(".row")[elementY] != undefined) {
@@ -424,13 +434,15 @@
                                 // console.log("ogx", x, "ogy", y);
                                 // console.log("x", index_col_targeted, "y", row_index);
 
+                                console.log("out", game_over)
                                 if (is_mooving_good) {
                                     // moove the coin
                                     let row = document.querySelectorAll(".row")[row_index];
                                     let element = row.querySelectorAll(".col")[index_col_targeted];
                                     // console.log(is_mooving_good, element);
-                                    if (!element.classList.contains("played")) {
+                                    if (!element.classList.contains("played") && (""+x+y) != (""+index_col_targeted+row_index)) {
                                         let current_coin = document.querySelector("#col-cont-pion1");
+                                        console.log("in")
                                         // console.log(current_coin);
                                         // element.appendChild(current_coin);
                                         current_coin.remove();
@@ -439,8 +451,8 @@
                                         // color the current square
                                         // update coords var and localstorage
                                         // update turn var and localstorage
-                                        let coordsAroundX = [(x - 1), x, (x + 1)];
-                                        let coordsAroundY = [(y - 1), y, (y + 1)];
+                                        let coordsAroundX = [(index_col_targeted - 1), index_col_targeted, (index_col_targeted + 1)];
+                                        let coordsAroundY = [(row_index - 1), row_index, (row_index + 1)];
                                         console.log(coordsAroundX, coordsAroundY);
                                         let flagtOver = true;
                                         for (let indexX = 0; indexX < coordsAroundX.length; indexX++) {
@@ -448,7 +460,7 @@
                                             for (let indexY = 0; indexY < coordsAroundY.length; indexY++) {
                                                 const elementY = coordsAroundY[indexY];
                                                 console.log("xy :  ", ("" + elementX + elementY));
-                                                if (("" + x + y) != ("" + elementX + elementY)) {
+                                                if ((""+elementX+elementY) != (""+index_col_targeted+row_index)) {
                                                     let rowTargeted = undefined;
                                                     let elementTargeted = undefined;
                                                     if (document.querySelectorAll(".row")[elementY] != undefined) {
@@ -515,7 +527,7 @@
                                     let row = document.querySelectorAll(".row")[row_index];
                                     let element = row.querySelectorAll(".col")[index_col_targeted];
                                     // console.log(is_mooving_good, element);
-                                    if (!element.classList.contains("played")) {
+                                    if (!element.classList.contains("played") && (""+x+y) != (""+index_col_targeted+row_index)) {
                                         let current_coin = document.querySelector("#col-cont-pion2");
                                         // console.log(current_coin);
                                         // element.appendChild(current_coin);
@@ -527,8 +539,8 @@
                                         // update turn var and localstorage
                                         // x-1 x x+1
                                         // y-1 y y+1
-                                        let coordsAroundX = [(x - 1), x, (x + 1)];
-                                        let coordsAroundY = [(y - 1), y, (y + 1)];
+                                        let coordsAroundX = [(index_col_targeted - 1), index_col_targeted, (index_col_targeted + 1)];
+                                        let coordsAroundY = [(row_index - 1), row_index, (row_index + 1)];
                                         console.log(coordsAroundX, coordsAroundY);
                                         let flagtOver = true;
                                         for (let indexX = 0; indexX < coordsAroundX.length; indexX++) {
@@ -536,7 +548,7 @@
                                             for (let indexY = 0; indexY < coordsAroundY.length; indexY++) {
                                                 const elementY = coordsAroundY[indexY];
                                                 console.log("xy :  ", ("" + elementX + elementY));
-                                                if (("" + x + y) != ("" + elementX + elementY)) {
+                                                if ((""+elementX+elementY) != (""+index_col_targeted+row_index)) {
                                                     let rowTargeted = undefined;
                                                     let elementTargeted = undefined;
                                                     if (document.querySelectorAll(".row")[elementY] != undefined) {
@@ -596,7 +608,7 @@
                                     let row = document.querySelectorAll(".row")[row_index];
                                     let element = row.querySelectorAll(".col")[index_col_targeted];
                                     // console.log(is_mooving_good, element);
-                                    if (!element.classList.contains("played")) {
+                                    if (!element.classList.contains("played") && (""+x+y) != (""+index_col_targeted+row_index)) {
                                         let current_coin = document.querySelector("#col-cont-pion2");
                                         // console.log(current_coin);
                                         // element.appendChild(current_coin);
@@ -606,8 +618,8 @@
                                         // color the current square
                                         // update coords var and localstorage
                                         // update turn var and localstorage
-                                        let coordsAroundX = [(x - 1), x, (x + 1)];
-                                        let coordsAroundY = [(y - 1), y, (y + 1)];
+                                        let coordsAroundX = [(index_col_targeted - 1), index_col_targeted, (index_col_targeted + 1)];
+                                        let coordsAroundY = [(row_index - 1), row_index, (row_index + 1)];
                                         console.log(coordsAroundX, coordsAroundY);
                                         let flagtOver = true;
                                         for (let indexX = 0; indexX < coordsAroundX.length; indexX++) {
@@ -615,7 +627,7 @@
                                             for (let indexY = 0; indexY < coordsAroundY.length; indexY++) {
                                                 const elementY = coordsAroundY[indexY];
                                                 console.log("xy :  ", ("" + elementX + elementY));
-                                                if (("" + x + y) != ("" + elementX + elementY)) {
+                                                if ((""+elementX+elementY) != (""+index_col_targeted+row_index)) {
                                                     let rowTargeted = undefined;
                                                     let elementTargeted = undefined;
                                                     if (document.querySelectorAll(".row")[elementY] != undefined) {
@@ -651,80 +663,21 @@
                         }
                     }
                 }
-                if (game_over) {
+
+                document.querySelector(".turn").innerText = (turn == "pion1") ? "Joueur 1" : "Joueur 2";
+                document.querySelector(".pion1").style.boxShadow = (turn == "pion1") ? "3px 3px 5px 6px #ccc" : "";
+                document.querySelector(".pion2").style.boxShadow = (turn == "pion2") ? "3px 3px 5px 6px #ccc" : "";
+
+                // console.log("before",game_over)
+                if (game_over == true) {
                     localStorage.clear();
+                    console.log("game over");
+                    
                     document.getElementsByClassName("play")[0].style.display = "";
-                    document.querySelector(".plateau").innerHTML = '       <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col">
-                <div class="col-cont" id="col-cont-pion2" style="background:green;">
-                    <div class="pion2"></div>
-                </div>
-            </div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col">
-                <div class="col-cont" id="col-cont-pion1" style="background:green;">
-                    <div class="pion1"></div>
-                </div>
-            </div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-        </div>';
+                    // console.log(document.querySelector(".plateau"));
+
+                    document.querySelector(".plateau").innerHTML = `<div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"><div class="col-cont" id="col-cont-pion2" style="background:green;"><div class="pion2"></div></div></div><div class="col"></div><div class="col"></div><div class="col"></div></div ><div class="row"><div class="col"></div><div class="col"></div>
+                    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div><div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div><div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div><div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div><div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div></div><div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"><div class="col-cont" id="col-cont-pion1" style="background:green;"><div class="pion1"></div></div></div><div class="col"></div><div class="col"></div><div class="col"></div></div>`;
                 }
             });
         }
